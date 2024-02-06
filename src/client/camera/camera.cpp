@@ -123,12 +123,13 @@ void CameraClient::processFrameBuffer(const Stream *stream,
   {
     std::unique_lock<std::mutex> locker(imageLock_);
     rgbData_.clear();
+    logger->debug("format {}", pixelFormat);
     if (pixelFormat == PixelFormat::fromString("XRGB8888")) {
       convertXRGB8888ToRGB(src, rgbData_, width, height);
     } else if (pixelFormat == PixelFormat::fromString("MJPEG")) {
       convertMJPEGToRGB(src, rgbData_, width, height);
     }
-    logger->trace("Convert {} to RGB ({}byte)", pixelFormat.toString(),
+    logger->debug("Convert {} to RGB ({}byte)", pixelFormat.toString(),
                   rgbData_.size());
     size_ = stream->configuration().size;
   }
