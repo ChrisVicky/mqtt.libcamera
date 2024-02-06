@@ -31,7 +31,7 @@ public:
   void set_message_handler(
       std::function<void(const mqtt::const_message_ptr msg)>);
   void publish(std::string url, std::string payload) {
-    client_->publish(url, payload);
+    client_->publish(url, payload)->wait();
   }
 
   void handle();

@@ -138,12 +138,18 @@ void CameraClient::processFrameBuffer(const Stream *stream,
 
 std::vector<uint8_t> CameraClient::GetImage() {
   std::unique_lock<std::mutex> locker(imageLock_);
-  return rgbData_;
+  auto ret = std::move(rgbData_);
+  return ret;
 }
 
 std::vector<uint8_t> CameraClient::GetImageMqtt() {
-  auto ret = GetImageMqtt();
-  ret.push_back(size_.height);
-  ret.push_back(size_.width);
+  auto ret = GetImage();
+  logger->trace("Size: {} x {} (hxw)", size_.height, size_.width);
+  int width = size_.width;
+  int height = size_.height;
+  ret.push_back(width & 0xFF);         // 宽度的低字节
+  ret.push_back((width >> 8) & 0xFF);  // 宽度的高字节
+  ret.push_back(height & 0xFF);        // 高度的低字节
+  ret.push_back((height >> 8) & 0xFF); // 高度的高字节
   return ret;
 }
