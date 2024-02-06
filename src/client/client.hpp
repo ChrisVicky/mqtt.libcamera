@@ -57,6 +57,10 @@ public:
 
     mqtt_->connect();
 
+    for (auto &[k, v] : funcMap_) {
+      mqtt_->subscribe(k);
+    }
+
     logger->info("Setting Routine, Publishing image data via `/data`");
     loop_.routine([=]() {
       rgb_ = camera_->GetImageMqtt(); // Last two Bytes are Height and Width

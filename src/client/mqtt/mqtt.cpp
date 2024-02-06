@@ -30,6 +30,7 @@ MqttClient::MqttClient(std::string addr, std::string id, std::string name,
     logger->info("Connected to {}", server_address_);
   });
 
+  logger->info("Setup Mes Callback");
   client_->set_message_callback(cb);
 }
 

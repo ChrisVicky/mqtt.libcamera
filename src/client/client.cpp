@@ -5,6 +5,7 @@
 std::function<void(const mqtt::const_message_ptr msg)> Client::GetHandler() {
   return [this](const mqtt::const_message_ptr msg) {
     std::string url = msg->get_topic();
+    logger->info("Receive Msg from: {}", url);
     if (funcMap_.find(url) != funcMap_.end()) {
       funcMap_[url](msg);
     } else {

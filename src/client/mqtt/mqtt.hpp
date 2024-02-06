@@ -23,7 +23,11 @@ public:
   MqttClient(){};
   void connect();
   void disconnect();
+  void subscribe(std::string topic) { client_->subscribe(topic, 1); }
   void set_callback(mqtt::callback &cb);
+  void set_connected(std::function<void(const std::string &cause)> cb) {
+    client_->set_connected_handler(cb);
+  }
   void set_message_handler(
       std::function<void(const mqtt::const_message_ptr msg)>);
   void publish(std::string url, std::string payload) {
