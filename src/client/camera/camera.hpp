@@ -2,6 +2,7 @@
 #define __CAMERA_HPP__
 #include <libcamera/camera_manager.h>
 #include <libcamera/framebuffer.h>
+#include <libcamera/geometry.h>
 #include <libcamera/libcamera.h>
 #include <libcamera/pixel_format.h>
 #include <libcamera/stream.h>
@@ -115,6 +116,7 @@ class CameraClient {
 
   Stream *stream_; // Stream for our use case
   std::vector<std::unique_ptr<Request>> requests_;
+  Size size_;
 
   std::mutex imageLock_;
   std::vector<uint8_t> rgbData_;
@@ -126,5 +128,6 @@ public:
   CameraClient();
   void processFrameBuffer(const Stream *stream, const FrameBuffer *frameBuffer);
   std::vector<uint8_t> GetImage();
+  std::vector<uint8_t> GetImageMqtt();
 };
 #endif // __CAMERA_HPP__

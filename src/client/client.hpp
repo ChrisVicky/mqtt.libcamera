@@ -59,7 +59,7 @@ public:
 
     logger->info("Setting Routine, Publishing image data via `/data`");
     loop_.routine([=]() {
-      rgb_ = camera_->GetImage();
+      rgb_ = camera_->GetImageMqtt(); // Last two Bytes are Height and Width
       mqtt_->publish("/data", std::string(rgb_.begin(), rgb_.end()));
       logger->trace("Publish Data through /data");
     });

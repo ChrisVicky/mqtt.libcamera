@@ -130,6 +130,7 @@ void CameraClient::processFrameBuffer(const Stream *stream,
     }
     logger->trace("Convert {} to RGB ({}byte)", pixelFormat.toString(),
                   rgbData_.size());
+    size_ = stream->configuration().size;
   }
 
   munmap(memory, plane.length);
@@ -138,4 +139,11 @@ void CameraClient::processFrameBuffer(const Stream *stream,
 std::vector<uint8_t> CameraClient::GetImage() {
   std::unique_lock<std::mutex> locker(imageLock_);
   return rgbData_;
+}
+
+std::vector<uint8_t> CameraClient::GetImageMqtt() {
+  auto ret = GetImageMqtt();
+  ret.push_back(size_.height);
+  ret.push_back(size_.width);
+  return ret;
 }
