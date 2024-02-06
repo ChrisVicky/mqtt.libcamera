@@ -139,8 +139,7 @@ void CameraClient::processFrameBuffer(const Stream *stream,
 
 std::vector<uint8_t> CameraClient::GetImage() {
   std::unique_lock<std::mutex> locker(imageLock_);
-  auto ret = std::move(rgbData_);
-  return ret;
+  return rgbData_;
 }
 
 std::vector<uint8_t> CameraClient::GetImageMqtt() {
